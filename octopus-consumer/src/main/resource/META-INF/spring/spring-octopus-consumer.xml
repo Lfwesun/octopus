@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- 测试集成spring -->
+	<bean id="demo" class="com.gdrcu.consumer.demo.Demo">
+		<property name="str" value="Hello World!" />
+	</bean>
+	<!-- 添加dubbo -->
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样即可 -->
+	<dubbo:application name="octopus-consumer" />
+	<!-- 使用本地注册服务地址 -->
+	<dubbo:registry protocol="zookeeper" address="zookeeper://192.168.79.1:2181" />
+	<!-- 生成远程服务代理，可以和本地bean一样使用S2001300000205 -->
+	<dubbo:reference id="S2001300000205" check="false"
+		interface="com.gdrcu.api.service.inter.S2001300000205" />
+	<dubbo:reference id="S2001300000106" check="false"
+		interface="com.gdrcu.api.service.inter.S2001300000106" />
+	<!-- 添加netty服务，提供请求方请求发送接收用 host:10980 库对于后续可能有多个，所以后续开发会以一个单独配置文件配置 -->
+	<!-- <bean id="inServer" class="com.gdrcu.consumer.netty.InServer"> <constructor-arg 
+		value="10980" /> <constructor-arg value="GBK" /> </bean> <bean id="inServer01" 
+		class="com.gdrcu.consumer.netty.InServer01"> <constructor-arg value="10983" 
+		/> <constructor-arg value="GBK" /> </bean> -->
+	<import resource="consumer-request-ip.xml" />
+	<!-- 注入获取bean的工具类 -->
+	<bean id="springContextUtil" class="com.gdrcu.common.utils.SpringContextUtil" />
+</beans>

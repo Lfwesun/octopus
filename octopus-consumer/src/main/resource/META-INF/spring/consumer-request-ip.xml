@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<!-- 添加netty服务，提供请求方请求发送接收用 host:10980 对于后续可能有多个，所以后续开发会以一个单独配置文件配置 -->
+	<bean id="inServer" class="com.gdrcu.consumer.netty.InServer">
+		<constructor-arg value="10980" />
+		<constructor-arg value="GBK" />
+	</bean>
+	<bean id="inServer01" class="com.gdrcu.consumer.netty.InServer01">
+		<constructor-arg value="10983" />
+		<constructor-arg value="GBK" />
+	</bean>
+	<bean id="consumerServer" class="com.gdrcu.consumer.netty.ConsumerServer">
+		<constructor-arg value="1098" />
+		<constructor-arg value="GBK" />
+	</bean>
+	
+	<bean id="ports" class="com.gdrcu.consumer.entity.PortsUtil">
+		 <property name="map">
+             <map>
+                 <entry key="1234" value="gbk" />
+                 <entry key="2345" value="utf-8" />
+             </map>
+         </property>
+	</bean>
+	
+</beans>
